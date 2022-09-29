@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-10 col-lg-8 col-sm-10">
+					<br>
+					<br>
+					<h1 class="mb-2">
+						Capstone - Web Scraping 
+					</h1>
+					<h3>
+						Reported Period: 2021
+					</h3>
+					<br>
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-4 col-lg-4 col-sm-4">
+				<div class="card card-stats">
+					<div class="card-header">
+						<div class="card-icon">
+							<i></i>
+						</div>
+						<h2 class="card-title">
+							{{ card_data }}
+						</h2>
+						<h4 class="card-category">
+							which site to choose ?
+						</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12 col-sm-12">
+				<div class="tab">
+					<button class="tablinks" onclick="openTab(event, 'profile') " id="defaultOpen">Top 7
+					</button>
+					<button class="tablinks" onclick="openTab(event, 'Own')">Further Analysis
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12 col-sm-12">
+				<!-- Tab content -->
+				<div id="profile" class="tabcontent">
+					<div style="margin:25px">
+						<br>
+						<h3 style="color: #333333;text-align:center">7 Popular Movie's title based on imdb rating </h3>
+						<div class="img-container"">
+							
+							{% if funded_plot != None %}
+						<img src="data:image/png;base64,{{ plot_imdb }}" >
+							{% endif %}
+						</div>
+						<br><br>
+						<h3 style="color: #333333;text-align:center">7 Popular Movie's title based on metascore rating </h3>
+						<div class="img-container"">
+							
+							{% if funded_plot != None %}
+						<img src="data:image/png;base64,{{ plot_ms }}" >
+							{% endif %}
+						</div>
+						<br>
+						<p style="color: #333333">* sampling data taken from advanced search at imdb site with filter:</p>
+						<p style="color: #333333">&nbsp; - year: 2021</p>	
+						<p style="color: #333333">&nbsp; - item per page: 250</p>	
+						<p style="color: #333333">and film where doesn't have metascore is removed.</p>	  
+						<br>
+						<p style="color: #333333">Total data for plotting: 70</p>
+					</div>
+				</div>
+				
+				<div id="Own" class="tabcontent">
+				    <!-- Define your own analysis for extra challange -->
+					<div style="margin:25px">
+						<p style="color: #333333;">imdb and metascore rating will be compared using hist() </p>
+						<br>
+						<div class="img-container">
+								
+							{% if funded_plot != None %}
+								<img src="data:image/png;base64,{{ plot_hist_imdb }}" ><img src="data:image/png;base64,{{ plot_hist_ms }}" >
+							{% endif %}
+						</div>
+						<br>
+						<p style="color: #333333;">
+							Based on both histogram, metascore resembles more as normal distribution. It has more bars around lowest and highest rating area.
+							In imdb's histogram, distribution tend to average area (x-axis between 6 and 8).
+						</p> 
+						<br>
+						<p style="color: #333333;">
+							It is possible because sampling is too small, initially 250 data then removed missing metascore into 70. 
+							Other reason, metascore is review from leading critics which is reviewer more filtered than imdb.
+						</p> 
+						<br>
+						<p style="color: #333333;">
+							Conclusion, metascore rating is better suited to movie enthusiast (considering all aspect of movie).
+						</p>		
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+function openTab(evt, idName) {
+	// Declare all variables
+	var i, tabcontent, tablinks;
+
+	// Get all elements with class="tabcontent" and hide them
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+	tabcontent[i].style.display = "none";
+	}
+
+	// Get all elements with class="tablinks" and remove the class "active"
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+	tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+
+	// Show the current tab, and add an "active" class to the button that opened the tab
+	document.getElementById(idName).style.display = "block";
+	evt.currentTarget.className += " active";
+
+	}
+	document.getElementById("defaultOpen").click();	
+</script>
