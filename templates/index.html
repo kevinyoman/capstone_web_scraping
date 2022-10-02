@@ -34,7 +34,7 @@
 							{{ card_data }}
 						</h2>
 						<h4 class="card-category">
-							which site to choose ?
+							source: imdb.com
 						</h4>
 					</div>
 				</div>
@@ -45,7 +45,9 @@
 				<div class="tab">
 					<button class="tablinks" onclick="openTab(event, 'profile') " id="defaultOpen">Top 7
 					</button>
-					<button class="tablinks" onclick="openTab(event, 'Own')">Further Analysis
+					<button class="tablinks" onclick="openTab(event, 'Own')">Correlation
+					</button>
+					<button class="tablinks" onclick="openTab(event, 'Own2')">Additional Analysis
 					</button>
 				</div>
 			</div>
@@ -54,37 +56,101 @@
 			<div class="col-md-12 col-lg-12 col-sm-12">
 				<!-- Tab content -->
 				<div id="profile" class="tabcontent">
-					<div style="margin:25px">
-						<br>
-						<h3 style="color: #333333;text-align:center">7 Popular Movie's title based on imdb rating </h3>
-						<div class="img-container"">
+					<div style="margin:12px">
+						<p style="color: #333333">We conclude that imdb rating and metascore isn't related directly with popularity.</p>
+						<h3 style="color: #333333;text-align:center">Chart 1: 7 Popular Movie based on ranking </h3>
+						<div class="img-container">
 							
 							{% if funded_plot != None %}
-						<img src="data:image/png;base64,{{ plot_imdb }}" >
+						<img src="data:image/png;base64,{{ plot_rank }}" >
 							{% endif %}
 						</div>
-						<br><br>
-						<h3 style="color: #333333;text-align:center">7 Popular Movie's title based on metascore rating </h3>
-						<div class="img-container"">
-							
-							{% if funded_plot != None %}
-						<img src="data:image/png;base64,{{ plot_ms }}" >
-							{% endif %}
-						</div>
+						<p style="color: #333333">Chart 1 shows that top 7th by popularity has varies imdb rating and metascore from 6 until 9. It looks like popularity not correlated with ratings from both source.</p>
+						<p style="color: #333333">Based on imdb FAQ, generally, popularity rank based on page view of the title.</p>
+						<p style="color: #333333"> </p>
+						<table class="table-chart"> 
+							<tr>
+								<td>
+									<h3 style="color: #333333;text-align:center">Chart 2: 7 Popular Movie based on imdb rating </h3>
+									<div class="img-container"">
+										
+										{% if funded_plot != None %}
+									<img src="data:image/png;base64,{{ plot_imdb }}" >
+										{% endif %}
+									</div>		
+								</td><br>
+
+								<td>
+								<h3 style="color: #333333;text-align:center">Chart 3: 7 Popular Movie based on metascore rating </h3>
+									<div class="img-container"">
+										
+										{% if funded_plot != None %}
+									<img src="data:image/png;base64,{{ plot_ms }}" >
+										{% endif %}
+									</div>
+								</td>	
+							</tr>
+						</table>
 						<br>
-						<p style="color: #333333">* sampling data taken from advanced search at imdb site with filter:</p>
+						<p style="color: #333333">
+							Chart 2 has 2 same title (rank 2 and 3), out of chart 1. And chart 3 only has 1 same title (rank 4). It gives evidence that both ratings has weak correlation with popularity or not at all.
+						</p>
+						<br>
+						<p style="color: #333333">*Note: sampling data taken from advanced search at imdb site with filter:</p>
 						<p style="color: #333333">&nbsp; - year: 2021</p>	
 						<p style="color: #333333">&nbsp; - item per page: 250</p>	
-						<p style="color: #333333">and film where doesn't have metascore is removed.</p>	  
+						<p style="color: #333333">and clean the data by remove row, with criteria:</p>
+						<p style="color: #333333">&nbsp; - doesn't have metascore</p>	
+						<p style="color: #333333">&nbsp; - USA release date on year 2021</p>	  
+						<p style="color: #333333">Total data for plotting: 68</p>						
+					</div>
+				</div>
+
+				<div id="Own" class="tabcontent">
+					<div style="margin:12px">
+						<p style="color: #333333">Conclusion; imdb rating, metascore and release date doesn't have correlation with popularity.
 						<br>
-						<p style="color: #333333">Total data for plotting: 70</p>
+						<table class="table-chart">
+							<tr>
+								<td>
+									<h3 style="color: #333333;text-align:center">Correlation: ranks and imdb rating </h3>
+									<div class="img-container"">
+										
+										{% if funded_plot != None %}
+									<img src="data:image/png;base64,{{ plot_scimdb }}" >
+										{% endif %}
+									</div>
+								</td>
+								<td>
+									<h3 style="color: #333333;text-align:center">Correlation: ranks and metascore </h3>
+									<div class="img-container"">
+										
+										{% if funded_plot != None %}
+									<img src="data:image/png;base64,{{ plot_scms }}" >
+										{% endif %}
+									</div>	
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h3 style="color: #333333;text-align:center">Correlation: ranks and release date </h3>
+									<div class="img-container"">
+										{% if funded_plot != None %}
+									<img src="data:image/png;base64,{{ plot_scdate }}" >
+										{% endif %}
+									</div>
+								</td>
+							</tr>	
+						</table>	
 					</div>
 				</div>
 				
-				<div id="Own" class="tabcontent">
+				<div id="Own2" class="tabcontent">
 				    <!-- Define your own analysis for extra challange -->
-					<div style="margin:25px">
-						<p style="color: #333333;">imdb and metascore rating will be compared using hist() </p>
+					<div style="margin:12px">
+						<p style="color: #333333;">
+							Conclusion, metascore rating is better suited to movie enthusiast (considering all aspect of movie).
+						</p>
 						<br>
 						<div class="img-container">
 								
@@ -99,13 +165,8 @@
 						</p> 
 						<br>
 						<p style="color: #333333;">
-							It is possible because sampling is too small, initially 250 data then removed missing metascore into 70. 
-							Other reason, metascore is review from leading critics which is reviewer more filtered than imdb.
-						</p> 
-						<br>
-						<p style="color: #333333;">
-							Conclusion, metascore rating is better suited to movie enthusiast (considering all aspect of movie).
-						</p>		
+							metascore taken from website metacritic.com, is about review from leading critics which is reviewer more filtered than imdb.
+						</p>	
 					</div>	
 				</div>
 			</div>
